@@ -18,10 +18,18 @@ public class menuActivity extends AppCompatActivity {
         Button drawButton = findViewById(R.id.drawModeButton);
         Button portfolioButton = findViewById(R.id.portfolioButton);
 
-        //set the click listeners.
-
         viewButton.setOnClickListener(v -> {
-            Intent newIntent = new Intent(this, ); //goes to worldMapMode
+            Intent newIntent = new Intent(this, viewmodeActivity.class); //goes to viewMode
+            startActivity(newIntent);
+        });
+
+        drawButton.setOnClickListener(v -> {
+            Intent newIntent = new Intent(this, drawmodeActivity.class); //goes to viewMode
+            startActivity(newIntent);
+        });
+
+        portfolioButton.setOnClickListener(v -> {
+            Intent newIntent = new Intent(this, portfolioActivity.class); //goes to viewMode
             startActivity(newIntent);
         });
 
