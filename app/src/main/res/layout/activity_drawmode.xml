@@ -45,28 +45,28 @@
             android:visibility="gone">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/redButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                android:text="RED" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/greenButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                android:text="GREEN" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/blueButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                android:text="BLUE" />
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/yellowButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton" />
+                android:text="YELLOW" />
         </RadioGroup>
 
     </LinearLayout>
@@ -75,6 +75,28 @@
         android:id="@+id/drawLinesOptions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/startLine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Start Line" />
+
+        <Button
+            android:id="@+id/stopLine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Stop Line" />
+
+        <Button
+            android:id="@+id/preview"
+            android:layout_width="109dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Preview Drawing" />
+    </LinearLayout>
 
 </LinearLayout>

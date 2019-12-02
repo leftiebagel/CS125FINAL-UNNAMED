@@ -24,12 +24,12 @@ public class menuActivity extends AppCompatActivity {
         });
 
         drawButton.setOnClickListener(v -> {
-            Intent newIntent = new Intent(this, drawmodeActivity.class); //goes to viewMode
+            Intent newIntent = new Intent(this, drawmodeActivity.class); //goes to drawMode
             startActivity(newIntent);
         });
 
         portfolioButton.setOnClickListener(v -> {
-            Intent newIntent = new Intent(this, portfolioActivity.class); //goes to viewMode
+            Intent newIntent = new Intent(this, portfolioActivity.class); //goes to portfolio
             startActivity(newIntent);
         });
 
