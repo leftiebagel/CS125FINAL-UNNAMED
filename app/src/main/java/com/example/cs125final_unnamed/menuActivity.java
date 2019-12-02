@@ -2,6 +2,7 @@ package com.example.cs125final_unnamed;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -19,9 +20,14 @@ public class menuActivity extends AppCompatActivity {
 
         //set the click listeners.
 
+        viewButton.setOnClickListener(v -> {
+            Intent newIntent = new Intent(this, ); //goes to worldMapMode
+            startActivity(newIntent);
+        });
+
         Button logout = findViewById(R.id.logoutButton);
-        //are you sure?
         logout.setOnClickListener(v -> {
+            //are you sure? dialogue
             finish();
         });
     }
