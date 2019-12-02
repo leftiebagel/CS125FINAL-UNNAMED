@@ -33,11 +33,6 @@
         android:layout_height="557dp"
         android:orientation="horizontal">
 
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="553dp" />
-
         <RadioGroup
             android:id="@+id/colorPalleteGroup"
             android:layout_width="match_parent"

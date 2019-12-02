@@ -18,7 +18,7 @@ public class drawmodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
-        palleteVisibile== false;
+        palleteVisibile = false;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("this button does something!");
@@ -30,15 +30,14 @@ public class drawmodeActivity extends AppCompatActivity {
             if (palleteVisibile) {
                 palleteVisibile = false;
                 colorGroup.setVisibility(View.GONE);
-                colorGroup.setOnCheckedChangeListener(v -> {
-                    //clears check
+                colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
+                    //unused
                 });
             } else {
                 palleteVisibile = true;
                 colorGroup.setVisibility(View.VISIBLE);
-                colorGroup.setOnCheckedChangeListener(v -> {
+                colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
                     color = Color.BLUE;
-                    int colordIndex = colorGroup.getCheckedRadioButtonId();
                 });
             }
         });
