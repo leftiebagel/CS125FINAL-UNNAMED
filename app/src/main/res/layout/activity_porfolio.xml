@@ -3,9 +3,16 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/<-"
+        android:layout_width="103dp"
+        android:layout_height="77dp"
+        android:text="<-"
+        android:textSize="30sp" />
+
     <LinearLayout
         android:id="@+id/drawingsList"
         android:layout_width="match_parent"
-        android:layout_height="647dp"
+        android:layout_height="561dp"
         android:orientation="vertical"></LinearLayout>
 </LinearLayout>

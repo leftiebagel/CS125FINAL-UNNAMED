@@ -3,4 +3,15 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/backButtonMap"
+        android:layout_width="117dp"
+        android:layout_height="69dp"
+        android:text="<-"
+        android:textSize="30sp" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView2"
+        android:layout_width="match_parent"
+        android:layout_height="589dp" />
 </LinearLayout>
