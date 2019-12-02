@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/<-"
+        android:id="@+id/backButtonPortfolio"
         android:layout_width="103dp"
         android:layout_height="77dp"
-        android:text="<-"
+        android:text="Back"
         android:textSize="30sp" />
 
     <LinearLayout

@@ -7,7 +7,7 @@
         android:id="@+id/backButtonMap"
         android:layout_width="117dp"
         android:layout_height="69dp"
-        android:text="<-"
+        android:text="Back"
         android:textSize="30sp" />
 
     <com.google.android.gms.maps.MapView
