@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Color Palette Toggle" />
+            android:text="Toggle Tool Menu" />
 
     </LinearLayout>
 
@@ -40,66 +40,69 @@
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <RadioGroup
-            android:id="@+id/colorPalleteGroup"
-            android:layout_width="105dp"
+        <LinearLayout
+            android:id="@+id/buttons"
+            android:layout_width="112dp"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:visibility="gone">
 
-            <RadioButton
-                android:id="@+id/redButton"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/colorPalleteGroup"
+                android:layout_width="105dp"
                 android:layout_height="wrap_content"
-                android:text="RED" />
+                android:visibility="visible">
 
-            <RadioButton
-                android:id="@+id/greenButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="GREEN" />
+                <RadioButton
+                    android:id="@+id/redButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="RED" />
 
-            <RadioButton
-                android:id="@+id/blueButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="BLUE" />
+                <RadioButton
+                    android:id="@+id/greenButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="GREEN" />
 
-            <RadioButton
-                android:id="@+id/yellowButton"
-                android:layout_width="match_parent"
+                <RadioButton
+                    android:id="@+id/blueButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BLUE" />
+
+                <RadioButton
+                    android:id="@+id/yellowButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="YELLOW" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/startLine"
+                android:layout_width="114dp"
                 android:layout_height="wrap_content"
-                android:text="YELLOW" />
-        </RadioGroup>
+                android:layout_weight="1"
+                android:text="Start Line"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/stopLine"
+                android:layout_width="116dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Stop Line"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/preview"
+                android:layout_width="117dp"
+                android:layout_height="63dp"
+                android:layout_weight="1"
+                android:text="Preview Drawing"
+                android:visibility="visible" />
+        </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/drawLinesOptions"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:visibility="visible">
-
-        <Button
-            android:id="@+id/startLine"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Start Line" />
-
-        <Button
-            android:id="@+id/stopLine"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Stop Line" />
-
-        <Button
-            android:id="@+id/preview"
-            android:layout_width="109dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Preview Drawing" />
-    </LinearLayout>
-
 </LinearLayout>

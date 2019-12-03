@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 public class drawmodeActivity extends AppCompatActivity {
@@ -26,16 +27,17 @@ public class drawmodeActivity extends AppCompatActivity {
 
         Button palleteToggle = findViewById(R.id.color_toggle);
         palleteToggle.setOnClickListener(v -> {
+            LinearLayout buttons = findViewById(R.id.buttons);
             RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
             if (palleteVisibile) {
                 palleteVisibile = false;
-                colorGroup.setVisibility(View.GONE);
+                buttons.setVisibility(View.GONE);
                 colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
                     //unused
                 });
             } else {
                 palleteVisibile = true;
-                colorGroup.setVisibility(View.VISIBLE);
+                buttons.setVisibility(View.VISIBLE);
                 colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
                     color = Color.BLUE;
                 });

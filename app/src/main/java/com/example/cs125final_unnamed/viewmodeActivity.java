@@ -7,10 +7,14 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import android.os.Bundle;
+import android.widget.LinearLayout;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,13 +31,14 @@ public class viewmodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewmode);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment areaMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.gameMap);
-
-        mapFragment.getMapAsync(theMap -> {
-            map = theMap;
+        areaMapFragment.getMapAsync(newMap -> {
+            map = newMap;
             setUpMap();
         });
+
+        LinearLayout middleLayout = findViewById(R.id.mapAndPallete);
 
         Button backButton = findViewById(R.id.backButtonMap);
         backButton.setOnClickListener(v -> {
