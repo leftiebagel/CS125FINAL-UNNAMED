@@ -26,9 +26,9 @@ public class drawmodeActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         Button palleteToggle = findViewById(R.id.color_toggle);
+        LinearLayout buttons = findViewById(R.id.buttons);
+        RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
         palleteToggle.setOnClickListener(v -> {
-            LinearLayout buttons = findViewById(R.id.buttons);
-            RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
             if (palleteVisibile) {
                 palleteVisibile = false;
                 buttons.setVisibility(View.GONE);
@@ -53,10 +53,14 @@ public class drawmodeActivity extends AppCompatActivity {
 
         startLine.setOnClickListener(v -> {
             dialog.show();
+            //takes away the option of changing colors
+            colorGroup.setVisibility(View.GONE);
         });
 
         endLine.setOnClickListener(v -> {
             dialog.show();
+            //You can choose color again
+            colorGroup.setVisibility(View.VISIBLE);
         });
 
         preview.setOnClickListener(v -> {
