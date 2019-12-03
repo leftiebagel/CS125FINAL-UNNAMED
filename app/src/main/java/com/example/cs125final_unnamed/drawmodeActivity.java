@@ -48,6 +48,9 @@ public class drawmodeActivity extends AppCompatActivity {
         Button endLine = findViewById(R.id.stopLine);
         Button preview = findViewById(R.id.preview);
 
+        Button save = findViewById(R.id.save);
+        Button delete = findViewById(R.id.delete_draw);
+
         startLine.setOnClickListener(v -> {
             dialog.show();
         });
@@ -59,6 +62,15 @@ public class drawmodeActivity extends AppCompatActivity {
         preview.setOnClickListener(v -> {
             dialog.show();
         });
+
+        save.setOnClickListener(v -> {
+            dialog.show();
+        });
+
+        delete.setOnClickListener(v -> {
+            dialog.show();
+        });
+
 
 
         Button backButton = findViewById(R.id.backButtonDraw);
