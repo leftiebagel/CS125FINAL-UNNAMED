@@ -30,13 +30,20 @@
     <LinearLayout
         android:id="@+id/mapAndPallete"
         android:layout_width="match_parent"
-        android:layout_height="557dp"
+        android:layout_height="543dp"
         android:orientation="horizontal">
+
+        <fragment
+            android:id="@+id/gameMap"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="308dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <RadioGroup
             android:id="@+id/colorPalleteGroup"
-            android:layout_width="match_parent"
-            android:layout_height="553dp"
+            android:layout_width="105dp"
+            android:layout_height="match_parent"
             android:visibility="gone">
 
             <RadioButton
