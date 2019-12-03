@@ -32,7 +32,6 @@ public class viewmodeActivity extends AppCompatActivity {
 
         mapFragment.getMapAsync(theMap -> {
             map = theMap;
-
             setUpMap();
         });
 
