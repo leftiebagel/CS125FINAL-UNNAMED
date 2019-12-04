@@ -1,6 +1,7 @@
 package com.example.cs125final_unnamed;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,6 +42,17 @@ public class drawmodeActivity extends AppCompatActivity {
                 colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
                     color = Color.BLUE;
                 });
+            }
+        });
+
+        Button collapser = findViewById(R.id.collapse);
+
+        collapser.setOnClickListener(v -> {
+            LinearLayout mapNOthers = findViewById(R.id.mapAndPallete);
+            if (mapNOthers.getVisibility() == View.GONE) {
+                mapNOthers.setVisibility(View.VISIBLE);
+            } else {
+                mapNOthers.setVisibility(View.GONE);
             }
         });
 
