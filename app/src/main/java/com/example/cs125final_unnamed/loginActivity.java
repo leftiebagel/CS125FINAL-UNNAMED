@@ -31,6 +31,7 @@ public class loginActivity extends AppCompatActivity {
 
     /**
      * onCreate starts the login procedure.
+     *
      * @param savedInstanceState saved state from the previously terminated instance of this activity
      */
     @Override
@@ -57,9 +58,10 @@ public class loginActivity extends AppCompatActivity {
 
     /**
      * Invoked by the Android system when a request launched by startActivityForResult completes.
+     *
      * @param requestCode the request code passed by to startActivityForResult
-     * @param resultCode resultCode a value indicating how the request finished
-     * @param data an Intent containing results
+     * @param resultCode  resultCode a value indicating how the request finished
+     * @param data        an Intent containing results
      */
 
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -84,3 +86,5 @@ public class loginActivity extends AppCompatActivity {
             }
         }
     }
+}
+
