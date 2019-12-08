@@ -11,31 +11,76 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.LinearLayout;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e.
- * status bar and navigation/system bar) with user interaction.
- */
+
+
+
 public class loginActivity extends AppCompatActivity {
     /**
-     * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
+     * Sign in code.
+     */
+    private final int rcSignIn = 77;
+
+    /**
+     * onCreate starts the login procedure.
+     * @param savedInstanceState saved state from the previously terminated instance of this activity
+     */
+    @Override
+    protected final void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        if (!(FirebaseAuth.getInstance().getCurrentUser() == null)) { // see below discussion
+            Intent intent = new Intent(this, menuActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.EmailBuilder().build());
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    rcSignIn);
+            // start login activity for result - see below discussion
+        }
+
+    }
+
+    /**
+     * Invoked by the Android system when a request launched by startActivityForResult completes.
+     * @param requestCode the request code passed by to startActivityForResult
+     * @param resultCode resultCode a value indicating how the request finished
+     * @param data an Intent containing results
      */
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        setContentView(R.layout.activity_login);
+        if (requestCode == rcSignIn) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
 
-        Button loginButton = findViewById(R.id.loginButton);
-
-        loginButton.setOnClickListener(v -> {
-            //there'll be a google login button
-            Intent newLogin = new Intent(this, menuActivity.class);
-            startActivity(newLogin);
-        });
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                Intent intent = new Intent(this, menuActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Button gologin = findViewById(R.id.loginButton);
+                gologin.setOnClickListener(unused -> recreate());
+                // Sign in failed. If response is null the user canceled the
+                // sign-in flow using the back button. Otherwise check
+                // response.getError().getErrorCode() and handle the error.
+                // ...
+            }
+        }
     }
-}
