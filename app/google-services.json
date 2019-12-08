@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1089224176074",
-    "firebase_url": "https://cs-125-fall-2019-mp.firebaseio.com",
-    "project_id": "cs-125-fall-2019-mp",
-    "storage_bucket": "cs-125-fall-2019-mp.appspot.com"
+    "project_number": "591659216252",
+    "firebase_url": "https://drawrun-cd7f1.firebaseio.com",
+    "project_id": "drawrun-cd7f1",
+    "storage_bucket": "drawrun-cd7f1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1089224176074:android:772458d8ce6369b6",
+        "mobilesdk_app_id": "1:591659216252:android:870d344289912d2b9508f9",
         "android_client_info": {
-          "package_name": "edu.illinois.cs.cs125.fall2019.mp"
+          "package_name": "com.example.cs125final_unnamed"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1089224176074-kk3aqbpikigjp4gvm1sib2mvb2204nfd.apps.googleusercontent.com",
+          "client_id": "591659216252-cqeikuo7mfssq9cpeqif9h3d5ov8mkfc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD_0Jc8by7UwSrQFYoQiBD5zScD9qwQ-lM"
+          "current_key": "AIzaSyA1qW-jvXRh3ZWlC_wVntavk-OBuA1jpIM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1089224176074-kk3aqbpikigjp4gvm1sib2mvb2204nfd.apps.googleusercontent.com",
+              "client_id": "591659216252-cqeikuo7mfssq9cpeqif9h3d5ov8mkfc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
