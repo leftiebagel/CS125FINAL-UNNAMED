@@ -37,7 +37,7 @@
     <LinearLayout
         android:id="@+id/mapAndPallete"
         android:layout_width="match_parent"
-        android:layout_height="422dp"
+        android:layout_height="522dp"
         android:orientation="horizontal">
 
         <fragment
@@ -50,7 +50,7 @@
         <LinearLayout
             android:id="@+id/buttons"
             android:layout_width="112dp"
-            android:layout_height="match_parent"
+            android:layout_height="314dp"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -59,6 +59,12 @@
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:visibility="visible">
+
+                <RadioButton
+                    android:id="@+id/blackButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="BLACK" />
 
                 <RadioButton
                     android:id="@+id/redButton"
@@ -89,7 +95,7 @@
             <Button
                 android:id="@+id/startLine"
                 android:layout_width="match_parent"
-                android:layout_height="10dp"
+                android:layout_height="168dp"
                 android:layout_weight="1"
                 android:text="Start Line"
                 android:visibility="visible" />
@@ -100,7 +106,7 @@
                 android:layout_height="17dp"
                 android:layout_weight="1"
                 android:text="Stop Line"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -109,7 +115,7 @@
     <LinearLayout
         android:id="@+id/bottomButtons"
         android:layout_width="match_parent"
-        android:layout_height="147dp"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:visibility="visible">
 

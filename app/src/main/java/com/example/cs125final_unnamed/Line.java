@@ -13,9 +13,9 @@ public class Line {
     private int color;
     private ArrayList<LatLng> points;
 
-    public Line(ArrayList<LatLng> pointsInput, int colorInput) {
+    public Line(int colorInput) {
         color = colorInput;
-        points = pointsInput;
+        points = new ArrayList<>();
     }
 
     public int getColor() {
@@ -24,4 +24,5 @@ public class Line {
     public ArrayList<LatLng> getPoints() {
         return points;
     }
+    public void addPoint(LatLng newPoint) { points.add(newPoint); }
 }
