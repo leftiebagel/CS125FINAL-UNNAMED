@@ -19,6 +19,13 @@
             android:textSize="30sp" />
 
         <Button
+            android:id="@+id/collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Collapse / Show Map" />
+
+        <Button
             android:id="@+id/color_toggle"
             android:layout_width="143dp"
             android:layout_height="match_parent"
@@ -30,14 +37,14 @@
     <LinearLayout
         android:id="@+id/mapAndPallete"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="522dp"
         android:orientation="horizontal">
 
         <fragment
             android:id="@+id/gameMap"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="419dp"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <LinearLayout
