@@ -33,21 +33,24 @@ public class drawMap {
         ArrayList<Line> linesToDraw = toDraw.Lines();
 
         for (Line line: linesToDraw) {
-            int color = line.getColor();
-            ArrayList<LatLng> points = line.getPoints();
+            drawLine(line);
+        }
+    }
 
-            if (points.size() <= 1) {
-                continue;
-            }
+    public void drawLine(Line line) {
+        int color = line.getColor();
+        ArrayList<LatLng> points = line.getPoints();
 
-            //add Slider for line width at start of line?
+        //add Slider for line width at start of line?
+        if (points.size() <= 1) {
+            return;
+        }
 
-            for (int i  = 0; i < points.size() - 1; i++) {
-                Polyline linePoly = map.addPolyline(new PolylineOptions()
-                        .add(points.get(i), points.get(i + 1))
-                        .width(5)
-                        .color(color));
-            }
+        for (int i  = 0; i < points.size() - 1; i++) {
+            Polyline linePoly = map.addPolyline(new PolylineOptions()
+                    .add(points.get(i), points.get(i + 1))
+                    .width(5)
+                    .color(color));
         }
     }
 
@@ -56,7 +59,4 @@ public class drawMap {
             draw(drawThis);
         }
     }
-
-    //adding lines
-    //end location function
 }

@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 public class lineActivity extends AppCompatActivity{
@@ -24,6 +26,8 @@ public class lineActivity extends AppCompatActivity{
     private int length;
     private Line currentLine;
     private LatLng last;
+    private GoogleMap map;
+    private drawMap drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,7 @@ public class lineActivity extends AppCompatActivity{
         color = getIntent().getIntExtra("color", Color.BLACK);
         setContentView(R.layout.activity_drawmode);
         setUpUi();
+        setUpMap();
         currentLine = new Line(color);
         length = 0;
         last = new LatLng(0.0,0.0);
@@ -45,6 +50,7 @@ public class lineActivity extends AppCompatActivity{
                 //distance from last point at least a meter or so?
                 if (length <= 100 && farEnough(location)) {
                     addPointToLine(location);
+                    drawer.drawLine(currentLine);
                 }
             }
 
@@ -68,7 +74,7 @@ public class lineActivity extends AppCompatActivity{
 
     private boolean farEnough(Location location) {
         LatLng locationLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        if (distance(last, locationLatLng) < 4.0) {
+        if (distance(last, locationLatLng) > 4.0) {
             return true;
         }
         return false;
@@ -85,6 +91,18 @@ public class lineActivity extends AppCompatActivity{
         double latDistance = latScale * (start.latitude - end.latitude);
         double lngDistance = lngScale * (start.longitude - end.longitude) * Math.cos(latRads);
         return Math.sqrt(latDistance * latDistance + lngDistance * lngDistance);
+    }
+
+    public void setUpMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.gameMap);
+        // Interestingly, the UI component itself doesn't have methods to manipulate the map
+        // We need to get a GoogleMap instance from it and use that
+        mapFragment.getMapAsync(theMap -> {
+            // Save the map so it can be manipulated later
+            map = theMap;
+            drawer = new drawMap(map, new LatLng(40.1,-80.1));
+        });
     }
 
     public void setUpUi() {

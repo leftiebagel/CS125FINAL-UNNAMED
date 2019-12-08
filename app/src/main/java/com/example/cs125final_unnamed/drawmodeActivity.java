@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
@@ -27,12 +30,16 @@ public class drawmodeActivity extends AppCompatActivity {
     private Drawing currentDrawing;
     private final int[] colors = {Color.BLACK, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
     private boolean drawing;
+    private GoogleMap map;
+    private drawMap drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
         setUpUI();
+        setUpMap();
+
         palleteVisibile = false;
         drawing = false;
         Line currentLine;
@@ -52,25 +59,32 @@ public class drawmodeActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void setUpMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.gameMap);
+        // Interestingly, the UI component itself doesn't have methods to manipulate the map
+        // We need to get a GoogleMap instance from it and use that
+        mapFragment.getMapAsync(theMap -> {
+            // Save the map so it can be manipulated later
+            map = theMap;
+            drawer = new drawMap(map,new LatLng(40.1, -80.1));
+        });
+    }
+
     private void setUpUI() {
         Button palleteToggle = findViewById(R.id.color_toggle);
         LinearLayout buttons = findViewById(R.id.buttons);
         RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
+        System.out.println(colorGroup.toString());
         colorGroup.setVisibility(View.VISIBLE);
 
         palleteToggle.setOnClickListener(v -> {
             if (palleteVisibile) {
                 palleteVisibile = false;
                 buttons.setVisibility(View.GONE);
-                colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
-                    //unused
-                });
             } else {
                 palleteVisibile = true;
                 buttons.setVisibility(View.VISIBLE);
-                colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
-                    color = colors[checkedId];
-                });
             }
         });
 
@@ -82,19 +96,27 @@ public class drawmodeActivity extends AppCompatActivity {
         Button delete = findViewById(R.id.delete_draw);
 
         colorGroup.check(R.id.blackButton);
-        colorGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.redButton:
-                        colorGroup.check(R.id.redButton);
-                        color = Color.RED;
-                        break;
-                    default:
-                        colorGroup.check(R.id.blueButton);
-                        break;
-                }
+        colorGroup.setOnCheckedChangeListener((unused, checkedId) -> {
+            int ID = checkedId;
+            switch(ID) {
+                case R.id.blackButton:
+                    color = Color.BLACK;
+                    break;
+                case R.id.redButton:
+                    color = Color.RED;
+                    break;
+                case R.id.greenButton:
+                    color = Color.GREEN;
+                    break;
+                case R.id.blueButton:
+                    color = Color.BLUE;
+                    break;
+                case R.id.yellowButton:
+                    color = Color.YELLOW;
+                    break;
+                default:
+                    color = Color.BLACK;
             }
-
         });
 
         startLine.setOnClickListener(v -> {
