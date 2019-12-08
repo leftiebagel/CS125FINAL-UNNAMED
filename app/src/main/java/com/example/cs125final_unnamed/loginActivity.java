@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
