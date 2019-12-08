@@ -38,14 +38,14 @@
     <LinearLayout
         android:id="@+id/mapAndPallete"
         android:layout_width="match_parent"
-        android:layout_height="522dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <fragment
             android:id="@+id/gameMap"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="400dp"
             android:layout_weight="1" />
 
         <LinearLayout

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1089224176074",
+    "firebase_url": "https://cs-125-fall-2019-mp.firebaseio.com",
+    "project_id": "cs-125-fall-2019-mp",
+    "storage_bucket": "cs-125-fall-2019-mp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1089224176074:android:772458d8ce6369b6",
+        "android_client_info": {
+          "package_name": "edu.illinois.cs.cs125.fall2019.mp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1089224176074-kk3aqbpikigjp4gvm1sib2mvb2204nfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_0Jc8by7UwSrQFYoQiBD5zScD9qwQ-lM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1089224176074-kk3aqbpikigjp4gvm1sib2mvb2204nfd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
