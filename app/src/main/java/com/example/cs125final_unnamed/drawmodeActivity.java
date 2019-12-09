@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -40,30 +41,7 @@ public class drawmodeActivity extends AppCompatActivity {
     private boolean drawing;
     private GoogleMap map;
     private drawMap drawer;
-    private BroadcastReceiver receiver;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (receiver == null) {
-            receiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    //these are the coords, send them somewhere
-                    String coords = intent.getStringExtra("coords");
-                }
-            }
-        }
-        registerReceiver(receiver, new IntentFilter("location_update"));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (receiver != null) {
-            unregisterReceiver(receiver);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +50,11 @@ public class drawmodeActivity extends AppCompatActivity {
 
         palleteVisibile = false;
         drawing = false;
-        Line currentLine;
         LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
         currentDrawing = new Drawing(defaultL);
 
-        if (!runtime_permissions()) {
-            setUpUI();
-            setUpMap();
-        }
+        setUpUI();
+        setUpMap();
     }
 
     private void defAlert() {
@@ -188,33 +163,18 @@ public class drawmodeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == 0) {
-            Line result  = (Line) data.getExtras().get("line");
+            System.out.println("result received");
+            String lineString = data.getExtras().getString("newLine");
+            Line result = new Line(lineString);
             currentDrawing.addLine(result);
+            drawer.draw(currentDrawing);
+            setUpUI();
         }
     }
 
-    private boolean runtime_permissions() {
-        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.ACCESS_FINE_LOCATION}, 100);
-
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        if (requestCode == 100) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                setUpUI();
-                setUpMap();
-            } else {
-                runtime_permissions();
-            }
-        }
+    private void centerMap(LatLng center) {
+        final float defaultMapZoom = 18f;
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                center, defaultMapZoom));
     }
 }

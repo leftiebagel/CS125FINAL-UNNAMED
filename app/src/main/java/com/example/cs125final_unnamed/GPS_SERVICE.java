@@ -30,8 +30,10 @@ public class GPS_SERVICE extends Service {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                System.out.println("location update sent");
                 Intent i = new Intent("location_update");
-                i.putExtra("coords", location.getLongitude() + ", " + location.getLatitude());
+                i.putExtra("coords", location.getLatitude() + ", " + location.getLongitude());
+                sendBroadcast(i);
             }
 
             @Override
@@ -55,7 +57,7 @@ public class GPS_SERVICE extends Service {
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
 
 
-        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,3000, 3, listener);
+        locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,1000, 0, listener);
     }
 
     @Override

@@ -18,10 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".GPS_SERVICE"
-            android:enabled="true"
-            android:exported="true"></service>
 
         <activity android:name=".lineActivity" />
         <!--
@@ -58,6 +54,8 @@
                 android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyD_0Jc8by7UwSrQFYoQiBD5zScD9qwQ-lM" />
         </activity>
+
+        <service android:name=".GPS_SERVICE"/>
     </application>
 
 </manifest>

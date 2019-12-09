@@ -6,9 +6,11 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -21,12 +23,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class lineActivity extends AppCompatActivity{
+    private BroadcastReceiver receiver;
     private int color;
     private int length;
     private Line currentLine;
@@ -41,43 +48,29 @@ public class lineActivity extends AppCompatActivity{
         setContentView(R.layout.activity_drawmode);
         currentLine = new Line(color);
         length = 0;
-        last = new LatLng(0.0,0.0);
+
         //setup location listener
         if (!runtime_permissions()) {
             setUpUi();
             setUpMap();
+            Intent i = new Intent(this, GPS_SERVICE.class);
+            startService(i);
         }
-
-
     }
 
-    private void addPointToLine(Location location) {
-        LatLng newpoint = new LatLng(location.getLatitude(), location.getLongitude());
+    private void addPointToLine(LatLng location) {
+        map.clear();
+        System.out.println("point reached");
+        if (last == null) {
+            last = location;
+            return;
+        }
         length++;
-        currentLine.addPoint(newpoint);
+        System.out.println("point drawing reached");
+        currentLine.addPoint(location);
+        drawer.drawLine(currentLine);
     }
 
-    private boolean farEnough(Location location) {
-        LatLng locationLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        if (distance(last, locationLatLng) > 4.0) {
-            drawer.drawLine(currentLine);
-            return true;
-        }
-        return false;
-    }
-
-    //taken from LatLngUtils in the MP
-    public static double distance(final LatLng start, final LatLng end) {
-        final double latScale = 110574;
-        final double lngScale = 111320;
-        final double degRad = Math.PI / 180;
-
-        double latRads = degRad * start.latitude;
-
-        double latDistance = latScale * (start.latitude - end.latitude);
-        double lngDistance = lngScale * (start.longitude - end.longitude) * Math.cos(latRads);
-        return Math.sqrt(latDistance * latDistance + lngDistance * lngDistance);
-    }
 
     public void setUpMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -87,7 +80,11 @@ public class lineActivity extends AppCompatActivity{
         mapFragment.getMapAsync(theMap -> {
             // Save the map so it can be manipulated later
             map = theMap;
-            drawer = new drawMap(map, new LatLng(40.013,-88.002));
+            if (last == null) {
+                drawer = new drawMap(map, new LatLng(40.013,-88.002));
+            } else {
+                drawer = new drawMap(map, last);
+            }
         });
     }
 
@@ -129,7 +126,7 @@ public class lineActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int id) {
                 int resultCode = 0;
                 Intent resultIntent = new Intent();
-                resultIntent.putExtra("newLine", currentLine.toString());
+                resultIntent.putExtra("newLine", currentLine.toJson().toString());
                 setResult(resultCode, resultIntent);
                 finish();
             }
@@ -143,5 +140,78 @@ public class lineActivity extends AppCompatActivity{
 
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    private boolean runtime_permissions() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                setUpUi();
+                setUpMap();
+                onResume();
+            } else {
+                runtime_permissions();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (receiver == null) {
+            receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    //these are the coords, send them somewhere to parse it into a LATLNG
+                    System.out.println("RECEIVED LOC UPDATE");
+                    String coords = (String) intent.getExtras().get("coords");
+                    LatLng parsed = parseLatLng(coords);
+                    addPointToLine(parsed);
+                    last = parsed;
+                    TextView coordsDebug = findViewById(R.id.coordDisplay);
+                    coordsDebug.setText(coords);
+                    centerMap(parsed);
+                }
+            };
+        }
+        registerReceiver(receiver, new IntentFilter("location_update"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
+    }
+
+    //location_update comes in format Latitude, Longitude
+    private LatLng parseLatLng(String arg) {
+        String[] split = arg.split(", ");
+        split[0].trim();
+        split[1].trim();
+        double lat = Double.parseDouble(split[0]);
+        double lng = Double.parseDouble(split[1]);
+
+        return new LatLng(lat, lng);
+    }
+
+    private void centerMap(LatLng center) {
+        final float defaultMapZoom = 18f;
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                center, defaultMapZoom));
     }
 }

@@ -31,7 +31,7 @@ public class drawMap {
     //start location function
     public void draw(Drawing toDraw) {
         ArrayList<Line> linesToDraw = toDraw.Lines();
-
+        System.out.println("draw reached");
         for (Line line: linesToDraw) {
             drawLine(line);
         }
@@ -40,18 +40,19 @@ public class drawMap {
     public void drawLine(Line line) {
         int color = line.getColor();
         ArrayList<LatLng> points = line.getPoints();
-
+        System.out.println("drawLine reached");
         //add Slider for line width at start of line?
         if (points.size() <= 1) {
             return;
         }
 
-        for (int i  = 0; i < points.size() - 1; i++) {
-            Polyline linep = map.addPolyline(new PolylineOptions()
-                    .add(points.get(i), points.get(i + 1))
-                    .width(5)
-                    .color(color));
+        PolylineOptions newLine = new PolylineOptions();
+        for (int i = 0; i < points.size(); i++) {
+            newLine = newLine.add(points.get(i));
         }
+        newLine = newLine.color(color);
+        newLine = newLine.width(100);
+        Polyline newLineDrawn = map.addPolyline(newLine);
     }
 
     public void draw(ArrayList<Drawing> toDraw) {
