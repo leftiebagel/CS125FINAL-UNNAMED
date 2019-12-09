@@ -28,13 +28,20 @@ public class Drawing {
         name = "unnamed";
     }
 
-    public Drawing(JSONObject jsonArg) {
+    public Drawing(String jsonStrArg) {
         try {
-            locatorPoint = (LatLng) jsonArg.get("locator");
-            lines = (ArrayList<Line>) jsonArg.get("lines");
-            name = jsonArg.getString("name");
-        } catch (JSONException e) {
-            //input is bad
+            JSONObject drawingJson = new JSONObject(jsonStrArg);
+            name = drawingJson.getString("name");
+            locatorPoint = parseLatLng(drawingJson.getString("locator"));
+
+            lines = new ArrayList<>();
+            String linesStr = drawingJson.getString("lines");
+            String[] linesStrArray = linesStr.split("L");
+            for (int i = 0; i < linesStrArray.length; i++) {
+                Line newL = new Line(linesStrArray[i]);
+            }
+        } catch (Exception e) {
+            System.out.println("Drawing reconstruction fail " + e.getMessage());
         }
     }
 
@@ -47,19 +54,34 @@ public class Drawing {
         return lines;
     }
 
-    public JSONObject getAsJson() {
+    public JSONObject toJson() {
+        JSONObject asJson = new JSONObject();
+        String linesStr = "";
+        for (int i = 0; i < lines.size(); i++) {
+            String lineAsString = lines.get(i).toJson().toString();
+            linesStr += lineAsString + "L";
+        }
         try {
-            JSONObject toReturn = new JSONObject();
-            toReturn.put("lines", lines);
-            toReturn.put("locator", locatorPoint);
-            toReturn.put("name", name);
-            return toReturn;
+            asJson = asJson.put("lines", linesStr);
+            asJson = asJson.put("name", name);
+            asJson = asJson.put("locator", locatorPoint.latitude + "," + locatorPoint.longitude);
+            return asJson;
         } catch (Exception e) {
-            return null;
+            System.out.println("drawing toJSon fail " + e.getMessage());
         }
     }
 
     public void setName(String arg) {
         name = arg;
+    }
+
+    private LatLng parseLatLng(String arg) {
+        String[] split = arg.split(",");
+        split[0].trim();
+        split[1].trim();
+        double lat = Double.parseDouble(split[0]);
+        double lng = Double.parseDouble(split[1]);
+
+        return new LatLng(lat, lng);
     }
 }
