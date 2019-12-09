@@ -37,8 +37,6 @@ public class drawmodeActivity extends AppCompatActivity {
     private int color = Color.BLACK;
     private Boolean palleteVisibile;
     private Drawing currentDrawing;
-    private final int[] colors = {Color.BLACK, Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
-    private boolean drawing;
     private GoogleMap map;
     private drawMap drawer;
 
@@ -49,7 +47,6 @@ public class drawmodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drawmode);
 
         palleteVisibile = false;
-        drawing = false;
         LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
         currentDrawing = new Drawing(defaultL);
 
@@ -126,17 +123,14 @@ public class drawmodeActivity extends AppCompatActivity {
         });
 
         startLine.setOnClickListener(v -> {
-            if (!drawing) {
-                drawing = true;
                 //takes away the option of changing colors
                 colorGroup.setVisibility(View.GONE);
                 startLine.setVisibility(View.GONE);
                 Intent intent = new Intent(this, lineActivity.class);
                 intent.putExtra("color", color);
                 startActivityForResult(intent, 0);
-
-                setUpUI();
-            }
+                colorGroup.setVisibility(View.VISIBLE);
+                startLine.setVisibility(View.VISIBLE);
         });
         preview.setOnClickListener(v -> {
             //goes to singleView mode and draws the drawing
@@ -168,7 +162,7 @@ public class drawmodeActivity extends AppCompatActivity {
             Line result = new Line(lineString);
             currentDrawing.addLine(result);
             drawer.draw(currentDrawing);
-            setUpUI();
+            centerMap(result.getPoints().get(0));
         }
     }
 
