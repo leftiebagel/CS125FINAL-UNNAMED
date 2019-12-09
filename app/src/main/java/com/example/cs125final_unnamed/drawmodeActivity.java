@@ -1,13 +1,21 @@
 package com.example.cs125final_unnamed;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,22 +40,45 @@ public class drawmodeActivity extends AppCompatActivity {
     private boolean drawing;
     private GoogleMap map;
     private drawMap drawer;
+    private BroadcastReceiver receiver;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (receiver == null) {
+            receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    //these are the coords, send them somewhere
+                    String coords = intent.getStringExtra("coords");
+                }
+            }
+        }
+        registerReceiver(receiver, new IntentFilter("location_update"));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
-        setUpUI();
-        setUpMap();
 
         palleteVisibile = false;
         drawing = false;
         Line currentLine;
-        LatLng defaultL = new LatLng(40.1, -80.1);//replace this with the found location
+        LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
         currentDrawing = new Drawing(defaultL);
-        //if the intent has a drawing extra, create a new drawing from that
-        if (getIntent().hasExtra("drawing")) {
-            //currentDrawing = new Drawing(new JSONObject(getIntent().getStringExtra("drawing")));
+
+        if (!runtime_permissions()) {
+            setUpUI();
+            setUpMap();
         }
     }
 
@@ -67,7 +98,7 @@ public class drawmodeActivity extends AppCompatActivity {
         mapFragment.getMapAsync(theMap -> {
             // Save the map so it can be manipulated later
             map = theMap;
-            drawer = new drawMap(map,new LatLng(40.1, -80.1));
+            drawer = new drawMap(map,new LatLng(40.013,-88.002));
         });
     }
 
@@ -128,7 +159,7 @@ public class drawmodeActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, lineActivity.class);
                 intent.putExtra("color", color);
                 startActivityForResult(intent, 0);
-                //get the result or something
+
                 setUpUI();
             }
         });
@@ -138,6 +169,7 @@ public class drawmodeActivity extends AppCompatActivity {
             intent.putExtra("drawing", currentDrawing.getAsJson().toString());
             startActivity(intent);
         });
+
         save.setOnClickListener(v -> {
             //sends the drawing to the file handler
             defAlert();
@@ -146,11 +178,43 @@ public class drawmodeActivity extends AppCompatActivity {
             //destroys drawing, are you sure dialog
             defAlert();
         });
-
         Button backButton = findViewById(R.id.backButtonDraw);
         backButton.setOnClickListener(v -> {
             //alert that drawing may not have been saved
             finish();
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == 0) {
+            Line result  = (Line) data.getExtras().get("line");
+            currentDrawing.addLine(result);
+        }
+    }
+
+    private boolean runtime_permissions() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                setUpUI();
+                setUpMap();
+            } else {
+                runtime_permissions();
+            }
+        }
     }
 }

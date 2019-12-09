@@ -47,7 +47,7 @@ public class drawMap {
         }
 
         for (int i  = 0; i < points.size() - 1; i++) {
-            Polyline linePoly = map.addPolyline(new PolylineOptions()
+            Polyline linep = map.addPolyline(new PolylineOptions()
                     .add(points.get(i), points.get(i + 1))
                     .width(5)
                     .color(color));

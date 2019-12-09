@@ -1,15 +1,20 @@
 package com.example.cs125final_unnamed;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,36 +39,16 @@ public class lineActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         color = getIntent().getIntExtra("color", Color.BLACK);
         setContentView(R.layout.activity_drawmode);
-        setUpUi();
-        setUpMap();
         currentLine = new Line(color);
         length = 0;
         last = new LatLng(0.0,0.0);
         //setup location listener
-
-        // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                //distance from last point at least a meter or so?
-                if (length <= 100 && farEnough(location)) {
-                    addPointToLine(location);
-                    drawer.drawLine(currentLine);
-                }
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
-            public void onProviderEnabled(String provider) {}
-            public void onProviderDisabled(String provider) {}
-        };
-
-        try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        } catch (SecurityException e) {
-            Log.println(0,"LINEACTIVITY","Location isnt allowed, ya hacker");
+        if (!runtime_permissions()) {
+            setUpUi();
+            setUpMap();
         }
+
+
     }
 
     private void addPointToLine(Location location) {
@@ -75,6 +60,7 @@ public class lineActivity extends AppCompatActivity{
     private boolean farEnough(Location location) {
         LatLng locationLatLng = new LatLng(location.getLatitude(), location.getLongitude());
         if (distance(last, locationLatLng) > 4.0) {
+            drawer.drawLine(currentLine);
             return true;
         }
         return false;
@@ -101,7 +87,7 @@ public class lineActivity extends AppCompatActivity{
         mapFragment.getMapAsync(theMap -> {
             // Save the map so it can be manipulated later
             map = theMap;
-            drawer = new drawMap(map, new LatLng(40.1,-80.1));
+            drawer = new drawMap(map, new LatLng(40.013,-88.002));
         });
     }
 
@@ -128,6 +114,11 @@ public class lineActivity extends AppCompatActivity{
         endLine.setOnClickListener(V -> {
             lineAlert(currentLine);
         });
+        Button backButton = findViewById(R.id.backButtonDraw);
+        backButton.setOnClickListener(v -> {
+            //cancels line activity
+            finish();
+        });
     }
 
     private void lineAlert(Line line) {
@@ -145,7 +136,8 @@ public class lineActivity extends AppCompatActivity{
         });
         builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                //dont add line
+                setResult(1);
+                finish();
             }
         });
 
