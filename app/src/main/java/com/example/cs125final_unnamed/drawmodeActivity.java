@@ -18,6 +18,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -80,9 +83,28 @@ public class drawmodeActivity extends AppCompatActivity {
         EditText filename = findViewById(R.id.filename);
         colorGroup.setVisibility(View.VISIBLE);
         filename.setVisibility(View.VISIBLE);
+        TextView savedName = findViewById(R.id.saveName);
 
+        String name = "";
 
-        String name = filename.getText().toString();
+        filename.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                savedName.setText(charSequence);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        name = savedName.getText().toString();
 
         palleteToggle.setOnClickListener(v -> {
             if (palleteVisibile) {

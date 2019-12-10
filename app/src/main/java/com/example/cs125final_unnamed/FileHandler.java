@@ -10,8 +10,7 @@ public class FileHandler {
 
     public static void save(SharedPreferences storage, Drawing current, String name) {
         String toSave = current.toJson().toString();
-        String key = "file_" + name;
-        storage.edit().putString(key, toSave).apply();
+        storage.edit().putString(name, toSave).apply();
     }
     public void delete(SharedPreferences storage, String key) {
         storage.edit().remove(key).apply();
