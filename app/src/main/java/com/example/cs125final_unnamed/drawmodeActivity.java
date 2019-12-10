@@ -51,7 +51,7 @@ public class drawmodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
-        ///// add "name" to the currentDrawing class (it is defined in setup)//////
+
         Intent intent = getIntent();
         if ( intent.getExtras() != null && intent.getExtras().containsKey("drawing")) {
             currentDrawing = new Drawing(intent.getStringExtra("drawing"));

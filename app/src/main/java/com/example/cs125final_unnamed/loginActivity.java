@@ -30,8 +30,9 @@ public class loginActivity extends AppCompatActivity {
     protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        LinearLayout login = findViewById(R.id.login_layout);
-        login.setVisibility(View.VISIBLE);
+
+        setUpUI();
+
         if (!(FirebaseAuth.getInstance().getCurrentUser() == null)) { // see below discussion
             Intent intent = new Intent(this, menuActivity.class);
             startActivity(intent);
@@ -65,6 +66,15 @@ public class loginActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void setUpUI() {
+        LinearLayout login = findViewById(R.id.login_layout);
+        login.setVisibility(View.VISIBLE);
+        TextView title = findViewById(R.id.title_app);
+        title.setVisibility(View.VISIBLE);
+        TextView go = findViewById(R.id.textView4);
+        go.setVisibility(View.VISIBLE);
     }
 }
 
