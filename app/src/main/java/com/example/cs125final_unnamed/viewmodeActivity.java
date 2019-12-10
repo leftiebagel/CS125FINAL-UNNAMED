@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class viewmodeActivity extends AppCompatActivity {
 
     GoogleMap map;
+    drawMap drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class viewmodeActivity extends AppCompatActivity {
                 .findFragmentById(R.id.gameMap);
         areaMapFragment.getMapAsync(newMap -> {
             map = newMap;
+            drawer = new drawMap(map, new LatLng(40.013,-88.002);
         });
         // Disable some extra UI that gets in the way
     }
