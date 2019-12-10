@@ -34,15 +34,15 @@ public class portfolioActivity extends AppCompatActivity {
             TextView messageText = messageChunk.findViewById(R.id.infoBox);
             messageText.setText(entry.getKey());
 
-            Button viewButton = messageChunk.findViewById(R.id.viewButton);
+            //Button viewButton = messageChunk.findViewById(R.id.viewButton);
             Button deleteButton = messageChunk.findViewById(R.id.deleteButton);
             Button editButton = messageChunk.findViewById(R.id.editButton);
 
-            viewButton.setOnClickListener(v -> {
-                Intent intent = new Intent(this, viewmodeActivity.class);
-                intent.putExtra("drawing", (String) entry.getValue());
-                startActivity(intent);
-            });
+            //viewButton.setOnClickListener(v -> {
+            //    Intent intent = new Intent(this, viewmodeActivity.class);
+            //    intent.putExtra("drawing", (String) entry.getValue());
+            //    startActivity(intent);
+            //});
             editButton.setOnClickListener(v -> {
                 Intent intent = new Intent(this, drawmodeActivity.class);
                 intent.putExtra("drawing", (String) entry.getValue());

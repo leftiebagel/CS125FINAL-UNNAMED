@@ -117,7 +117,7 @@ public class drawmodeActivity extends AppCompatActivity {
         Button startLine = findViewById(R.id.startLine);
         startLine.setVisibility(View.VISIBLE);
 
-        Button preview = findViewById(R.id.preview);
+        //Button preview = findViewById(R.id.preview);
         Button save = findViewById(R.id.save);
         Button delete = findViewById(R.id.delete_draw);
 
@@ -155,12 +155,12 @@ public class drawmodeActivity extends AppCompatActivity {
                 colorGroup.setVisibility(View.VISIBLE);
                 startLine.setVisibility(View.VISIBLE);
         });
-        preview.setOnClickListener(v -> {
+        //preview.setOnClickListener(v -> {
             //goes to singleView mode and draws the drawing
-            Intent intent = new Intent(this, viewmodeActivity.class);
-            intent.putExtra("drawing", currentDrawing.toJson().toString());
-            startActivity(intent);
-        });
+            //Intent intent = new Intent(this, viewmodeActivity.class);
+            //intent.putExtra("drawing", currentDrawing.toJson().toString());
+            //startActivity(intent);
+        //});
 
         save.setOnClickListener(v -> {
             //sends the drawing to the file handler
