@@ -1,21 +1,23 @@
 package com.example.cs125final_unnamed;
 
+import android.content.SharedPreferences;
+
+import java.util.Map;
+
 public class FileHandler {
-    //returns the JSON object stored in a specific title, if its valid
-    public static String getJson(String title) {
-        if (title.contains("JSONSAVE")) {
+    private SharedPreferences storage;
+    private int count;
 
-        }
-        return "fileToString";
+    public static void save(SharedPreferences storage, Drawing current, String name) {
+        String toSave = current.toJson().toString();
+        String key = "file_" + name;
+        storage.edit().putString(key, toSave).apply();
+    }
+    public void delete(SharedPreferences storage, String key) {
+        storage.edit().remove(key).apply();
     }
 
-    //this will create a text file and save the JSON attributes to it
-    public static void saveToFile(String JsonToString) {
-        //if file already exists, ask to overwrite
+    public void allStrings(SharedPreferences storage) {
+        Map<String, ?> map = storage.getAll();
     }
-
-    public static void deleteFile(String fileName) {
-
-    }
-    //standard  will be (title)JSONSAVE.txt
 }

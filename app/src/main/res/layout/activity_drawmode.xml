@@ -33,6 +33,14 @@
 
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/filename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Enter name here" />
+
     <LinearLayout
         android:id="@+id/mapAndPallete"
         android:layout_width="match_parent"

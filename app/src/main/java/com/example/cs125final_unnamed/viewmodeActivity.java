@@ -24,8 +24,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class viewmodeActivity extends AppCompatActivity {
 
-    GoogleMap map;
-    drawMap drawer;
+    private GoogleMap map;
+
+    private drawMap drawer;
+
+    private Drawing current;
+
+    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,9 @@ public class viewmodeActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             finish();
         });
+        json = getIntent().getStringExtra("drawing");
+        current = new Drawing(json);
+        drawer.draw(current);
     }
 
     /**
@@ -46,12 +54,16 @@ public class viewmodeActivity extends AppCompatActivity {
      */
     @SuppressWarnings("MissingPermission")
     private void setUpMap() {
-        SupportMapFragment areaMapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.gameMap);
-        areaMapFragment.getMapAsync(newMap -> {
-            map = newMap;
-            drawer = new drawMap(map, new LatLng(40.013,-88.002);
+        // Interestingly, the UI component itself doesn't have methods to manipulate the map
+        // We need to get a GoogleMap instance from it and use that
+        mapFragment.getMapAsync(theMap -> {
+            // Save the map so it can be manipulated later
+            map = theMap;
+            drawer = new drawMap(map,new LatLng(40.013,-88.002));
         });
-        // Disable some extra UI that gets in the way
     }
+
+
 }

@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -39,13 +41,14 @@ public class drawmodeActivity extends AppCompatActivity {
     private Drawing currentDrawing;
     private GoogleMap map;
     private drawMap drawer;
+    private SharedPreferences storage;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
-
+        ///// add "name" to the currentDrawing class (it is defined in setup)//////
         Intent intent = getIntent();
         if (intent.getExtras().containsKey("drawing")) {
             currentDrawing = new Drawing(intent.getStringExtra("drawing"));
@@ -58,6 +61,7 @@ public class drawmodeActivity extends AppCompatActivity {
 
         setUpUI();
         setUpMap();
+        storage = getApplicationContext().getSharedPreferences("DRAWRUN_PREF", 0);
     }
 
     public void setUpMap() {
@@ -76,8 +80,11 @@ public class drawmodeActivity extends AppCompatActivity {
         Button palleteToggle = findViewById(R.id.color_toggle);
         LinearLayout buttons = findViewById(R.id.buttons);
         RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
+        EditText filename = findViewById(R.id.filename);
         System.out.println(colorGroup.toString());
         colorGroup.setVisibility(View.VISIBLE);
+        filename.setVisibility(View.VISIBLE);
+        String name = filename.getText().toString();
 
         palleteToggle.setOnClickListener(v -> {
             if (palleteVisibile) {
@@ -139,15 +146,25 @@ public class drawmodeActivity extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             //sends the drawing to the file handler
+            if (name.equals("")) {
+                AlertDialog.Builder emptyAlert = new AlertDialog.Builder(this);
+                emptyAlert = emptyAlert.setTitle("Please enter filename!");
+                emptyAlert.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder = builder.setTitle("Are you sure you want to save " + currentDrawing.getName());
-            builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+            builder = builder.setTitle("Are you sure you want to save " + name);
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    FileHandler.saveToFile(currentDrawing.getName()+"JSONSAVE.txt");
+                    FileHandler.save(storage, currentDrawing, name);
                 }
             });
-            builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
