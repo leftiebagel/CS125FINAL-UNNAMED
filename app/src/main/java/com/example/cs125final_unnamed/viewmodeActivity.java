@@ -86,6 +86,4 @@ public class viewmodeActivity extends AppCompatActivity {
             drawer = new drawMap(map,new LatLng(40.013,-88.002));
         });
     }
-
-
 }
