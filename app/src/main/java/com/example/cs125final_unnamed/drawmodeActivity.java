@@ -85,7 +85,6 @@ public class drawmodeActivity extends AppCompatActivity {
         filename.setVisibility(View.VISIBLE);
         TextView savedName = findViewById(R.id.saveName);
 
-        String name = "";
 
         filename.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,6 +95,7 @@ public class drawmodeActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 savedName.setText(charSequence);
+                currentDrawing.setName(charSequence.toString());
             }
 
             @Override
@@ -104,8 +104,7 @@ public class drawmodeActivity extends AppCompatActivity {
             }
         });
 
-        name = savedName.getText().toString();
-
+        currentDrawing.setName(savedName.getText().toString());
         palleteToggle.setOnClickListener(v -> {
             if (palleteVisibile) {
                 palleteVisibile = false;
@@ -166,7 +165,7 @@ public class drawmodeActivity extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             //sends the drawing to the file handler
-            if (name.equals("")) {
+            if (currentDrawing.getName().equals("")) {
                 AlertDialog.Builder emptyAlert = new AlertDialog.Builder(this);
                 emptyAlert = emptyAlert.setTitle("Please enter filename!");
                 emptyAlert.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -177,11 +176,11 @@ public class drawmodeActivity extends AppCompatActivity {
                 });
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder = builder.setTitle("Are you sure you want to save " + name);
+            builder = builder.setTitle("Are you sure you want to save " + currentDrawing.getName());
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    FileHandler.save(storage, currentDrawing, name);
+                    FileHandler.save(storage, currentDrawing, currentDrawing.getName());
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
