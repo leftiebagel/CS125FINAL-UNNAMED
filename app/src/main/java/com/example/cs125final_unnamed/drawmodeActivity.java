@@ -46,20 +46,18 @@ public class drawmodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
 
+        Intent intent = getIntent();
+        if (intent.getExtras().containsKey("drawing")) {
+            currentDrawing = new Drawing(intent.getStringExtra("drawing"));
+        } else {
+            LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
+            currentDrawing = new Drawing(defaultL);
+        }
+
         palleteVisibile = false;
-        LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
-        currentDrawing = new Drawing(defaultL);
 
         setUpUI();
         setUpMap();
-    }
-
-    private void defAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("this button does something!");
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
     }
 
     public void setUpMap() {
@@ -165,7 +163,8 @@ public class drawmodeActivity extends AppCompatActivity {
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    FileHandler.deleteFile(currentDrawing.getName()+"JSONSAVE.txt");
+                    currentDrawing.clear();
+                    map.clear();
                 }
             });
             builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
