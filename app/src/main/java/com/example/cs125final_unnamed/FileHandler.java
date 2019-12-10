@@ -11,8 +11,11 @@ public class FileHandler {
 
     //this will create a text file and save the JSON attributes to it
     public static void saveToFile(String JsonToString) {
-
+        //if file already exists, ask to overwrite
     }
 
+    public static void deleteFile(String fileName) {
+
+    }
     //standard  will be (title)JSONSAVE.txt
 }

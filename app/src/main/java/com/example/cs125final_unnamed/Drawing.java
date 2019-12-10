@@ -76,6 +76,10 @@ public class Drawing {
         name = arg;
     }
 
+    public String getName() {
+        return name;
+    }
+
     private LatLng parseLatLng(String arg) {
         String[] split = arg.split(",");
         split[0].trim();
