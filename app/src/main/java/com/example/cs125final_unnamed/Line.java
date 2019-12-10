@@ -27,12 +27,10 @@ public class Line {
             JSONObject lineJson = new JSONObject(jsonString);
             color = lineJson.getInt("color");
 
-            String pointsAsString = (String) lineJson.get("points");
-            String[] pointsAsStrings = pointsAsString.split(" ");
+            String[] pointsStrs = (String[]) lineJson.get("points");
 
-            for (int i = 0; i < pointsAsStrings.length; i++) {
-                pointsAsStrings[i] = pointsAsStrings[i].trim();
-                points.add(parseLatLng(pointsAsStrings[i]));
+            for (int i = 0; i < pointsStrs.length; i++) {
+                points.add(parseLatLng(pointsStrs[i]));
             }
         } catch (Exception e) {
             System.out.println("line Json constructor fail " + points.size());
@@ -49,20 +47,21 @@ public class Line {
 
     public JSONObject toJson() {
         try {
-            JSONObject toJson = new JSONObject();
-            toJson = toJson.put("color", color);
+            JSONObject asJson = new JSONObject();
 
-            String pointStrings = "";
+            asJson.put("color", color);
+
+            String[] pointsStrings = new String[points.size()];
 
             for (int i = 0; i < points.size(); i++) {
-                LatLng pointTemp = points.get(i);
-                String newPoint = pointTemp.latitude + "," + pointTemp.longitude + " ";
-                pointStrings += newPoint;
-                System.out.println(newPoint);
+                LatLng point = points.get(i);
+                String latlngString = point.latitude + "," + point.longitude;
+                pointsStrings[i] = latlngString;
             }
 
-            toJson.putOpt("points", pointStrings);
-            return toJson;
+            asJson.putOpt("points", pointsStrings);
+
+            return asJson;
         } catch (Exception e) {
             System.out.println("toJson fail");
             return null;

@@ -45,12 +45,33 @@ public class viewmodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewmode);
-        setUpMap();
 
         Button backButton = findViewById(R.id.backButtonMap);
         backButton.setOnClickListener(v -> {
             finish();
         });
+
+        setUpMap();
+    }
+
+    /**
+     * Sets up the Google map.
+     */
+    @SuppressWarnings("MissingPermission")
+    private void setUpMap() {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.gameMap);
+        // Interestingly, the UI component itself doesn't have methods to manipulate the map
+        // We need to get a GoogleMap instance from it and use that
+        mapFragment.getMapAsync(theMap -> {
+            // Save the map so it can be manipulated later
+            map = theMap;
+            drawer = new drawMap(map, new LatLng(40.013, -88.002));
+            setupIntent();
+        });
+    }
+
+    private void setupIntent() {
         Intent context = getIntent();
         if (context.getExtras() != null && context.getExtras().containsKey("drawing")) {
             //preview single drawings
@@ -69,21 +90,5 @@ public class viewmodeActivity extends AppCompatActivity {
             }
             drawer.draw(drawings);
         }
-    }
-
-    /**
-     * Sets up the Google map.
-     */
-    @SuppressWarnings("MissingPermission")
-    private void setUpMap() {
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.gameMap);
-        // Interestingly, the UI component itself doesn't have methods to manipulate the map
-        // We need to get a GoogleMap instance from it and use that
-        mapFragment.getMapAsync(theMap -> {
-            // Save the map so it can be manipulated later
-            map = theMap;
-            drawer = new drawMap(map,new LatLng(40.013,-88.002));
-        });
     }
 }

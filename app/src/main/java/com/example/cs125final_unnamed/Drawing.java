@@ -2,6 +2,7 @@ package com.example.cs125final_unnamed;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,17 +31,15 @@ public class Drawing {
 
     public Drawing(String jsonStrArg) {
         try {
-            JSONObject drawingJson = new JSONObject(jsonStrArg.substring(0,jsonStrArg.lastIndexOf("D")));
-            System.out.println(drawingJson.toString());
-            name = drawingJson.getString("name");
-            locatorPoint = parseLatLng(drawingJson.getString("locator"));
+            JSONObject obj = new JSONObject(jsonStrArg);
 
-            lines = new ArrayList<>();
-            String linesStr = drawingJson.getString("lines");
-            String[] linesStrArray = linesStr.split("L");
-            for (int i = 0; i < linesStrArray.length; i++) {
-                linesStrArray[i] = linesStrArray[i].substring(0,linesStrArray[i].lastIndexOf("L"));
-                Line newL = new Line(linesStrArray[i]);
+            name = obj.getString("name");
+            locatorPoint = parseLatLng(obj.getString("locator"));
+
+            String[] linesStrs = (String[]) obj.get("lines");
+
+            for (int i = 0; i < linesStrs.length; i++) {
+                lines.add(new Line(linesStrs[i]));
             }
         } catch (Exception e) {
             System.out.println("Drawing reconstruction fail " + e.getMessage());
@@ -58,21 +57,21 @@ public class Drawing {
 
     public JSONObject toJson() {
         JSONObject asJson = new JSONObject();
-        String linesStr = "";
-        for (int i = 0; i < lines.size(); i++) {
-            String lineAsString = lines.get(i).toJson().toString();
-            linesStr += lineAsString + "L";
-        }
         try {
-            asJson = asJson.put("lines", linesStr);
             asJson = asJson.put("name", name);
-            asJson = asJson.put("locator", locatorPoint.latitude + ", " + locatorPoint.longitude);
-            return asJson;
+            asJson = asJson.put("locator", locatorPoint.latitude + "," + locatorPoint.longitude);
+
+            String[] linesJsons = new String[lines.size()];
+            for (int i = 0; i < lines.size(); i++) {
+                linesJsons[i] = lines.get(i).toJson().toString();
+            }
+            asJson.putOpt("lines", linesJsons);
         } catch (Exception e) {
-            System.out.println("drawing toJSon fail " + e.getMessage());
-            return null;
+            System.out.println("fail in the Drawing Json builder " + e.getMessage());
         }
+        return asJson;
     }
+
 
     public void setName(String arg) {
         name = arg;

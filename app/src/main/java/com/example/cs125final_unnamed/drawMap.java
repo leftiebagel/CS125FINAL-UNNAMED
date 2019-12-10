@@ -32,7 +32,8 @@ public class drawMap {
     public void draw(Drawing toDraw) {
         ArrayList<Line> linesToDraw = toDraw.Lines();
         System.out.println("draw reached");
-        for (Line line: linesToDraw) {
+        for (int i = 0; i < linesToDraw.size(); i++) {
+            Line line = linesToDraw.get(i);
             drawLine(line);
         }
     }
