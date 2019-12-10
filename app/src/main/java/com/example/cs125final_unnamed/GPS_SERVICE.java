@@ -59,7 +59,7 @@ public class GPS_SERVICE extends Service {
 
 
         locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER,1000, 0, listener);
-        locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER, 1000, 0,listener);
+        //locationManager.requestLocationUpdates(locationManager.NETWORK_PROVIDER, 1000, 0,listener);
     }
 
     @Override
