@@ -84,6 +84,7 @@ public class drawmodeActivity extends AppCompatActivity {
         colorGroup.setVisibility(View.VISIBLE);
         filename.setVisibility(View.VISIBLE);
         TextView savedName = findViewById(R.id.saveName);
+        savedName.setVisibility(View.VISIBLE);
 
 
         filename.addTextChangedListener(new TextWatcher() {
@@ -94,7 +95,6 @@ public class drawmodeActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                savedName.setText(charSequence);
                 currentDrawing.setName(charSequence.toString());
             }
 
@@ -103,7 +103,6 @@ public class drawmodeActivity extends AppCompatActivity {
             }
         });
 
-        currentDrawing.setName(savedName.getText().toString());
         palleteToggle.setOnClickListener(v -> {
             if (palleteVisibile) {
                 palleteVisibile = false;

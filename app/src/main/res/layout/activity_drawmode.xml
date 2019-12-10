@@ -33,13 +33,19 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/saveName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter name below"
+        android:visibility="visible" />
+
     <EditText
         android:id="@+id/filename"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Enter name here" />
+        android:inputType="textPersonName" />
 
     <LinearLayout
         android:id="@+id/mapAndPallete"
@@ -148,9 +154,4 @@
             android:text="DELETE" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/saveName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 </LinearLayout>
