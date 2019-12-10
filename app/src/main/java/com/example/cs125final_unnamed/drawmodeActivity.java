@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -47,22 +48,20 @@ public class drawmodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawmode);
+        ///// add "name" to the currentDrawing class (it is defined in setup)//////
+        Intent intent = getIntent();
+        if (intent.getExtras().containsKey("drawing")) {
+            currentDrawing = new Drawing(intent.getStringExtra("drawing"));
+        } else {
+            LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
+            currentDrawing = new Drawing(defaultL);
+        }
 
         palleteVisibile = false;
-        LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
-        currentDrawing = new Drawing(defaultL);
-        storage = getApplicationContext().getSharedPreferences("PREF_STORE", 0);
 
         setUpUI();
         setUpMap();
-    }
-
-    private void defAlert() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("this button does something!");
-        AlertDialog dialog = builder.create();
-
-        dialog.show();
+        storage = getApplicationContext().getSharedPreferences("DRAWRUN_PREF", 0);
     }
 
     public void setUpMap() {
@@ -81,8 +80,11 @@ public class drawmodeActivity extends AppCompatActivity {
         Button palleteToggle = findViewById(R.id.color_toggle);
         LinearLayout buttons = findViewById(R.id.buttons);
         RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
+        EditText filename = findViewById(R.id.filename);
         System.out.println(colorGroup.toString());
         colorGroup.setVisibility(View.VISIBLE);
+        filename.setVisibility(View.VISIBLE);
+        String name = filename.getText().toString();
 
         palleteToggle.setOnClickListener(v -> {
             if (palleteVisibile) {
@@ -144,12 +146,22 @@ public class drawmodeActivity extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             //sends the drawing to the file handler
+            if (name.equals("")) {
+                AlertDialog.Builder emptyAlert = new AlertDialog.Builder(this);
+                emptyAlert = emptyAlert.setTitle("Please enter filename!");
+                emptyAlert.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder = builder.setTitle("Are you sure you want to save " + currentDrawing.getName());
+            builder = builder.setTitle("Are you sure you want to save " + name);
             builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    storage.edit().putString("jsonString", currentDrawing.toJson().toString()).commit();
+                    FileHandler.save(storage, currentDrawing, name);
                 }
             });
             builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -168,7 +180,8 @@ public class drawmodeActivity extends AppCompatActivity {
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    FileHandler.deleteFile(currentDrawing.getName()+"JSONSAVE.txt");
+                    currentDrawing.clear();
+                    map.clear();
                 }
             });
             builder.setNegativeButton("no", new DialogInterface.OnClickListener() {

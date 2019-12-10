@@ -30,20 +30,21 @@ public class loginActivity extends AppCompatActivity {
     protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        LinearLayout login = findViewById(R.id.login_layout);
+        login.setVisibility(View.VISIBLE);
         if (!(FirebaseAuth.getInstance().getCurrentUser() == null)) { // see below discussion
             Intent intent = new Intent(this, menuActivity.class);
             startActivity(intent);
             finish();
-        } else {
-            List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.EmailBuilder().build());
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build(),
-                    RCSign);
         }
+        List<AuthUI.IdpConfig> providers = Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build());
+        Button gologin = findViewById(R.id.loginButton);
+        gologin.setOnClickListener(v -> {
+            startActivityForResult(AuthUI.getInstance().
+                    createSignInIntentBuilder().
+                    setAvailableProviders(providers).
+                    build(), RCSign);
+        });
 
     }
 

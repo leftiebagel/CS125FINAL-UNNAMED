@@ -89,4 +89,8 @@ public class Drawing {
 
         return new LatLng(lat, lng);
     }
+
+    public void clear() {
+        lines = new ArrayList<Line>();
+    }
 }

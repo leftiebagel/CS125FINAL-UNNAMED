@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="visible">
 
     <TextView
         android:id="@+id/title_app"
@@ -14,7 +15,8 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|top"
         android:text="DrawRun"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/description"
@@ -22,12 +24,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Run and Create"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:visibility="visible" />
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <TextView
@@ -36,12 +40,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Proceed to login/Sign up:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:visibility="visible" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="login" />
+        android:text="login"
+        tools:visibility="visible" />
 
 </LinearLayout>
