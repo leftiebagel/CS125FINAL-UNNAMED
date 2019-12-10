@@ -51,7 +51,7 @@
             android:id="@+id/gameMap"
             class="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="450dp"
+            android:layout_height="430dp"
             android:layout_weight="1" />
 
         <LinearLayout
@@ -147,5 +147,11 @@
             android:layout_weight="1"
             android:text="DELETE" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/coordDisplay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>
