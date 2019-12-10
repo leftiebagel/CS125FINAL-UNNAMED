@@ -144,16 +144,60 @@ public class drawmodeActivity extends AppCompatActivity {
 
         save.setOnClickListener(v -> {
             //sends the drawing to the file handler
-            defAlert();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder = builder.setTitle("Are you sure you want to save " + currentDrawing.getName());
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    storage.edit().putString("jsonString", currentDrawing.toJson().toString()).commit();
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
         delete.setOnClickListener(v -> {
             //destroys drawing, are you sure dialog
-            defAlert();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder = builder.setTitle("Are you sure you want to delete " + currentDrawing.getName());
+            builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    FileHandler.deleteFile(currentDrawing.getName()+"JSONSAVE.txt");
+                }
+            });
+            builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //just closes the dialog
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
         Button backButton = findViewById(R.id.backButtonDraw);
         backButton.setOnClickListener(v -> {
-            //alert that drawing may not have been saved
-            finish();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Your changes might not be saved");
+            builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    //just closes the dialog
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
         });
     }
 
