@@ -17,7 +17,7 @@ public class FileHandler {
         storage.edit().remove(key).apply();
     }
 
-    public void allStrings(SharedPreferences storage) {
-        Map<String, ?> map = storage.getAll();
+    public Map<String, ?> allStrings(SharedPreferences storage) {
+        return storage.getAll();
     }
 }

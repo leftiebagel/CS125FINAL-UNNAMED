@@ -80,6 +80,8 @@ public class drawmodeActivity extends AppCompatActivity {
         EditText filename = findViewById(R.id.filename);
         colorGroup.setVisibility(View.VISIBLE);
         filename.setVisibility(View.VISIBLE);
+
+
         String name = filename.getText().toString();
 
         palleteToggle.setOnClickListener(v -> {
