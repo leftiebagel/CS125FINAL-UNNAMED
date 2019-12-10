@@ -2,9 +2,16 @@ package com.example.cs125final_unnamed;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.Task;
 
 public class menuActivity extends AppCompatActivity {
 
@@ -35,8 +42,20 @@ public class menuActivity extends AppCompatActivity {
 
         Button logout = findViewById(R.id.logoutButton);
         logout.setOnClickListener(v -> {
-            //are you sure? dialogue
-            finish();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure?");
+
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Dialog d = (Dialog) dialog;
+                    AuthUI.getInstance().signOut(d.getContext());
+                    finish();
+                }
+            });
+            builder.setNegativeButton("No", null);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
     }
 }

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,58 +9,39 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/title_login"
+        android:id="@+id/title_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|top"
-        android:text="Signup/Login"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:visibility="visible" />
+        android:text="DrawRun"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3" />
 
     <TextView
-        android:id="@+id/title_email"
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter Email" />
+        android:gravity="center_horizontal"
+        android:text="Run and Create"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress" />
-
-    <TextView
-        android:id="@+id/title_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enter Password" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword" />
-
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        tools:srcCompat="@tools:sample/avatars[0]" />
 
-        <Button
-            android:id="@+id/signupButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="SIGN UP" />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Proceed to login/Sign up:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="login" />
-
-    </LinearLayout>
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="login" />
 
 </LinearLayout>

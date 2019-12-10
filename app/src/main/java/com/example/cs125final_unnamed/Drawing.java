@@ -69,6 +69,7 @@ public class Drawing {
         } catch (Exception e) {
             System.out.println("drawing toJSon fail " + e.getMessage());
         }
+        return asJson;
     }
 
     public void setName(String arg) {

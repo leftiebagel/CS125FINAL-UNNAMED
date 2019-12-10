@@ -135,7 +135,7 @@ public class drawmodeActivity extends AppCompatActivity {
         preview.setOnClickListener(v -> {
             //goes to singleView mode and draws the drawing
             Intent intent = new Intent(this, viewmodeActivity.class);
-            intent.putExtra("drawing", currentDrawing.getAsJson().toString());
+            intent.putExtra("drawing", currentDrawing.toJson().toString());
             startActivity(intent);
         });
 
