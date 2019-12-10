@@ -24,19 +24,19 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class viewmodeActivity extends AppCompatActivity {
 
-    GoogleMap map;
+    private GoogleMap map;
+
+    private drawMap drawer;
+
+    private Drawing current;
+
+    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewmode);
-
-        SupportMapFragment areaMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.gameMap);
-        areaMapFragment.getMapAsync(newMap -> {
-            map = newMap;
-            setUpMap();
-        });
+        setUpMap();
 
         LinearLayout middleLayout = findViewById(R.id.mapAndPallete);
 
@@ -44,6 +44,9 @@ public class viewmodeActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             finish();
         });
+        json = getIntent().getStringExtra("drawing");
+        current = new Drawing(json);
+        drawer.draw(current);
     }
 
     /**
@@ -51,8 +54,16 @@ public class viewmodeActivity extends AppCompatActivity {
      */
     @SuppressWarnings("MissingPermission")
     private void setUpMap() {
-        // Disable some extra UI that gets in the way
-        map.getUiSettings().setIndoorLevelPickerEnabled(false);
-        map.getUiSettings().setMapToolbarEnabled(false);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.gameMap);
+        // Interestingly, the UI component itself doesn't have methods to manipulate the map
+        // We need to get a GoogleMap instance from it and use that
+        mapFragment.getMapAsync(theMap -> {
+            // Save the map so it can be manipulated later
+            map = theMap;
+            drawer = new drawMap(map,new LatLng(40.013,-88.002));
+        });
     }
+
+
 }

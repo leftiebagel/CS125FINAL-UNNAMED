@@ -13,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -39,6 +40,7 @@ public class drawmodeActivity extends AppCompatActivity {
     private Drawing currentDrawing;
     private GoogleMap map;
     private drawMap drawer;
+    private SharedPreferences storage;
 
 
     @Override
@@ -49,6 +51,7 @@ public class drawmodeActivity extends AppCompatActivity {
         palleteVisibile = false;
         LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
         currentDrawing = new Drawing(defaultL);
+        storage = getApplicationContext().getSharedPreferences("PREF_STORE", 0);
 
         setUpUI();
         setUpMap();
