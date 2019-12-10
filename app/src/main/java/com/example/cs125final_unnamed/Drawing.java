@@ -30,7 +30,8 @@ public class Drawing {
 
     public Drawing(String jsonStrArg) {
         try {
-            JSONObject drawingJson = new JSONObject(jsonStrArg);
+            JSONObject drawingJson = new JSONObject(jsonStrArg.substring(0,jsonStrArg.lastIndexOf("D")));
+            System.out.println(drawingJson.toString());
             name = drawingJson.getString("name");
             locatorPoint = parseLatLng(drawingJson.getString("locator"));
 
@@ -38,6 +39,7 @@ public class Drawing {
             String linesStr = drawingJson.getString("lines");
             String[] linesStrArray = linesStr.split("L");
             for (int i = 0; i < linesStrArray.length; i++) {
+                linesStrArray[i] = linesStrArray[i].substring(0,linesStrArray[i].lastIndexOf("L"));
                 Line newL = new Line(linesStrArray[i]);
             }
         } catch (Exception e) {
@@ -64,7 +66,7 @@ public class Drawing {
         try {
             asJson = asJson.put("lines", linesStr);
             asJson = asJson.put("name", name);
-            asJson = asJson.put("locator", locatorPoint.latitude + "," + locatorPoint.longitude);
+            asJson = asJson.put("locator", locatorPoint.latitude + ", " + locatorPoint.longitude);
             return asJson;
         } catch (Exception e) {
             System.out.println("drawing toJSon fail " + e.getMessage());
@@ -81,7 +83,7 @@ public class Drawing {
     }
 
     private LatLng parseLatLng(String arg) {
-        String[] split = arg.split(",");
+        String[] split = arg.split(", ");
         split[0].trim();
         split[1].trim();
         double lat = Double.parseDouble(split[0]);

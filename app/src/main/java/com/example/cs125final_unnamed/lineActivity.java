@@ -35,7 +35,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 public class lineActivity extends AppCompatActivity{
     private BroadcastReceiver receiver;
     private int color;
-    private int length;
     private Line currentLine;
     private LatLng last;
     private GoogleMap map;
@@ -47,14 +46,12 @@ public class lineActivity extends AppCompatActivity{
         color = getIntent().getIntExtra("color", Color.BLACK);
         setContentView(R.layout.activity_drawmode);
         currentLine = new Line(color);
-        length = 0;
 
         //setup location listener
         if (!runtime_permissions()) {
             setUpUi();
             setUpMap();
-            Intent i = new Intent(this, GPS_SERVICE.class);
-            startService(i);
+            System.out.println("runtime skipped");
         }
     }
 
@@ -65,7 +62,6 @@ public class lineActivity extends AppCompatActivity{
             last = location;
             return;
         }
-        length++;
         System.out.println("point drawing reached");
         currentLine.addPoint(location);
         drawer.drawLine(currentLine);
@@ -80,6 +76,8 @@ public class lineActivity extends AppCompatActivity{
         mapFragment.getMapAsync(theMap -> {
             // Save the map so it can be manipulated later
             map = theMap;
+            Intent i = new Intent(this, GPS_SERVICE.class);
+            startService(i);
             if (last == null) {
                 drawer = new drawMap(map, new LatLng(40.013,-88.002));
             } else {
@@ -161,8 +159,8 @@ public class lineActivity extends AppCompatActivity{
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 setUpUi();
                 setUpMap();
-                onResume();
             } else {
+                System.out.println("runtime asked");
                 runtime_permissions();
             }
         }
@@ -200,7 +198,7 @@ public class lineActivity extends AppCompatActivity{
 
     //location_update comes in format Latitude, Longitude
     private LatLng parseLatLng(String arg) {
-        String[] split = arg.split(", ");
+        String[] split = arg.split(",");
         split[0].trim();
         split[1].trim();
         double lat = Double.parseDouble(split[0]);

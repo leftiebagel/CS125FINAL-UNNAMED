@@ -2,6 +2,7 @@ package com.example.cs125final_unnamed;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -22,6 +23,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class viewmodeActivity extends AppCompatActivity {
 
     private GoogleMap map;
@@ -32,21 +38,37 @@ public class viewmodeActivity extends AppCompatActivity {
 
     private String json;
 
+    private ArrayList<Drawing> drawings;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewmode);
         setUpMap();
 
-        LinearLayout middleLayout = findViewById(R.id.mapAndPallete);
-
         Button backButton = findViewById(R.id.backButtonMap);
         backButton.setOnClickListener(v -> {
             finish();
         });
-        json = getIntent().getStringExtra("drawing");
-        current = new Drawing(json);
-        drawer.draw(current);
+        Intent context = getIntent();
+        if (context.getExtras() != null && context.getExtras().containsKey("drawing")) {
+            //preview single drawings
+            json = getIntent().getStringExtra("drawing");
+            current = new Drawing(json);
+            drawer.draw(current);
+        } else if (context.getExtras() != null && context.getExtras().containsKey("drawings")) {
+            //behavior for drawing all drawings
+            drawings = new ArrayList<>();
+            String drawingsStr = context.getExtras().getString("drawings");
+            String[] drawingsArr = drawingsStr.split("D");
+
+            for(String drawingStr : drawingsArr) {
+                drawingsStr = drawingStr.substring(0,drawingsStr.lastIndexOf("D"));
+                drawings.add(new Drawing(drawingsStr));
+            }
+            drawer.draw(drawings);
+        }
     }
 
     /**

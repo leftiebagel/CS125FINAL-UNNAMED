@@ -50,7 +50,7 @@ public class drawmodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_drawmode);
         ///// add "name" to the currentDrawing class (it is defined in setup)//////
         Intent intent = getIntent();
-        if (intent.getExtras().containsKey("drawing")) {
+        if ( intent.getExtras() != null && intent.getExtras().containsKey("drawing")) {
             currentDrawing = new Drawing(intent.getStringExtra("drawing"));
         } else {
             LatLng defaultL = new LatLng(40.013,-88.002);//replace this with the found location
@@ -67,10 +67,7 @@ public class drawmodeActivity extends AppCompatActivity {
     public void setUpMap() {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.gameMap);
-        // Interestingly, the UI component itself doesn't have methods to manipulate the map
-        // We need to get a GoogleMap instance from it and use that
         mapFragment.getMapAsync(theMap -> {
-            // Save the map so it can be manipulated later
             map = theMap;
             drawer = new drawMap(map,new LatLng(40.013,-88.002));
         });
@@ -81,7 +78,6 @@ public class drawmodeActivity extends AppCompatActivity {
         LinearLayout buttons = findViewById(R.id.buttons);
         RadioGroup colorGroup = findViewById(R.id.colorPalleteGroup);
         EditText filename = findViewById(R.id.filename);
-        System.out.println(colorGroup.toString());
         colorGroup.setVisibility(View.VISIBLE);
         filename.setVisibility(View.VISIBLE);
         String name = filename.getText().toString();
