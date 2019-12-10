@@ -28,10 +28,11 @@ public class portfolioActivity extends AppCompatActivity {
         storage = getApplicationContext().getSharedPreferences("DRAWRUN_PREF", 0);
         Map<String, ?> mapOfDrawings = handler.allStrings(storage);
 
-        for (String key: mapOfDrawings.keySet()) {
+        for (Map.Entry<String, ?>  entry : mapOfDrawings.entrySet()) {
+
             View messageChunk = getLayoutInflater().inflate(R.layout.chunk_portfolioentry, chunksList, false);
             TextView messageText = messageChunk.findViewById(R.id.infoBox);
-            messageText.setText(key);
+            messageText.setText(entry.getKey());
 
             Button viewButton = messageChunk.findViewById(R.id.viewButton);
             Button deleteButton = messageChunk.findViewById(R.id.deleteButton);
@@ -39,16 +40,16 @@ public class portfolioActivity extends AppCompatActivity {
 
             viewButton.setOnClickListener(v -> {
                 Intent intent = new Intent(this, viewmodeActivity.class);
-                intent.putExtra("drawing", (String) mapOfDrawings.get(key));
+                intent.putExtra("drawing", (String) entry.getValue());
                 startActivity(intent);
             });
             editButton.setOnClickListener(v -> {
                 Intent intent = new Intent(this, drawmodeActivity.class);
-                intent.putExtra("drawing", (String) mapOfDrawings.get(key));
+                intent.putExtra("drawing", (String) entry.getValue());
                 startActivity(intent);
             });
             deleteButton.setOnClickListener(v -> {
-                handler.delete(storage, key);
+                handler.delete(storage, entry.getKey());
                 messageText.setText("DELETED");
             });
 
