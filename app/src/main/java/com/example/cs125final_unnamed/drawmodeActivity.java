@@ -100,7 +100,6 @@ public class drawmodeActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
             }
         });
 
