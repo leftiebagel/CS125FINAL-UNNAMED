@@ -30,13 +30,7 @@ public class viewmodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewmode);
-
-        SupportMapFragment areaMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.gameMap);
-        areaMapFragment.getMapAsync(newMap -> {
-            map = newMap;
-            setUpMap();
-        });
+        setUpMap();
 
         LinearLayout middleLayout = findViewById(R.id.mapAndPallete);
 
@@ -51,8 +45,11 @@ public class viewmodeActivity extends AppCompatActivity {
      */
     @SuppressWarnings("MissingPermission")
     private void setUpMap() {
+        SupportMapFragment areaMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.gameMap);
+        areaMapFragment.getMapAsync(newMap -> {
+            map = newMap;
+        });
         // Disable some extra UI that gets in the way
-        map.getUiSettings().setIndoorLevelPickerEnabled(false);
-        map.getUiSettings().setMapToolbarEnabled(false);
     }
 }
