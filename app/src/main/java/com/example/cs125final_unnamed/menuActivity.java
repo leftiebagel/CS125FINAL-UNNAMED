@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +30,13 @@ public class menuActivity extends AppCompatActivity {
             Intent newIntent = new Intent(this, viewmodeActivity.class); //goes to viewMode
             startActivity(newIntent);
         });
-
+        drawButton.setVisibility(View.GONE);
+        /**
         drawButton.setOnClickListener(v -> {
             Intent newIntent = new Intent(this, drawmodeActivity.class); //goes to drawMode
             startActivity(newIntent);
         });
-
+         */
         portfolioButton.setOnClickListener(v -> {
             Intent newIntent = new Intent(this, portfolioActivity.class); //goes to portfolio
             startActivity(newIntent);
