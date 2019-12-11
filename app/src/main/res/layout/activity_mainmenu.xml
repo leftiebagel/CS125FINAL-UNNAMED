@@ -19,7 +19,8 @@
         android:id="@+id/viewModeButton"
         android:layout_width="match_parent"
         android:layout_height="91dp"
-        android:text="View Your Drawings" />
+        android:text="View Your Drawings"
+        android:visibility="gone" />
 
     <Space
         android:layout_width="match_parent"
@@ -29,7 +30,8 @@
         android:id="@+id/drawModeButton"
         android:layout_width="match_parent"
         android:layout_height="91dp"
-        android:text="make a new drawing" />
+        android:text="make a new drawing"
+        android:visibility="visible" />
 
     <Space
         android:layout_width="match_parent"

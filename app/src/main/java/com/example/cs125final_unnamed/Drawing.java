@@ -35,11 +35,11 @@ public class Drawing {
 
             name = obj.getString("name");
             locatorPoint = parseLatLng(obj.getString("locator"));
+            int linesLength = obj.getInt("numLines");
 
-            String[] linesStrs = (String[]) obj.get("lines");
-
-            for (int i = 0; i < linesStrs.length; i++) {
-                lines.add(new Line(linesStrs[i]));
+            for (int i = 0; i < linesLength; i ++) {
+                Line line = new Line(obj.getString("line" +i ));
+                lines.add(line);
             }
         } catch (Exception e) {
             System.out.println("Drawing reconstruction fail " + e.getMessage());
@@ -60,12 +60,11 @@ public class Drawing {
         try {
             asJson = asJson.put("name", name);
             asJson = asJson.put("locator", locatorPoint.latitude + "," + locatorPoint.longitude);
-
-            String[] linesJsons = new String[lines.size()];
+            asJson = asJson.put("numLines", lines.size());
             for (int i = 0; i < lines.size(); i++) {
-                linesJsons[i] = lines.get(i).toJson().toString();
+                asJson = asJson.put("line" + i, lines.get(i).toJson().toString());
             }
-            asJson.putOpt("lines", linesJsons);
+            return asJson;
         } catch (Exception e) {
             System.out.println("fail in the Drawing Json builder " + e.getMessage());
         }
